@@ -1,4 +1,4 @@
-package com.example.demo.src.orderdetail;
+package com.example.demo.src.jdbctemplate.orderdetail;
 
 
 import static com.example.demo.common.BaseResponseStatus.DATABASE_ERROR;
@@ -6,10 +6,10 @@ import static com.example.demo.common.BaseResponseStatus.DELETE_FAIL_USERNAME;
 import static com.example.demo.common.BaseResponseStatus.MODIFY_FAIL_USERNAME;
 
 import com.example.demo.common.BaseException;
-import com.example.demo.src.orderdetail.model.GetOrderDetailRes;
-import com.example.demo.src.orderdetail.model.PatchOrderDetailReq;
-import com.example.demo.src.orderdetail.model.PostOrderDetailRes;
-import com.example.demo.src.orderdetail.model.PostOrderDetailReq;
+import com.example.demo.src.jdbctemplate.orderdetail.model.GetOrderDetailRes;
+import com.example.demo.src.jdbctemplate.orderdetail.model.PatchOrderDetailReq;
+import com.example.demo.src.jdbctemplate.orderdetail.model.PostOrderDetailRes;
+import com.example.demo.src.jdbctemplate.orderdetail.model.PostOrderDetailReq;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,11 @@
-package com.example.demo.src.user;
+package com.example.demo.src.jdbctemplate.user;
 
 
+import com.example.demo.src.jdbctemplate.user.model.GetUserRes;
+import com.example.demo.src.jdbctemplate.user.model.PatchUserReq;
+import com.example.demo.src.jdbctemplate.user.model.PostUserReq;
+import com.example.demo.src.jdbctemplate.user.model.PostUserRes;
+import com.example.demo.src.jdbctemplate.user.model.User;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.common.BaseException;
 import com.example.demo.common.BaseResponse;

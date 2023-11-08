@@ -1,8 +1,8 @@
-package com.example.demo.src.orderdetail;
+package com.example.demo.src.jdbctemplate.orderdetail;
 
-import com.example.demo.src.orderdetail.model.GetOrderDetailRes;
-import com.example.demo.src.orderdetail.model.PatchOrderDetailReq;
-import com.example.demo.src.orderdetail.model.PostOrderDetailReq;
+import com.example.demo.src.jdbctemplate.orderdetail.model.PatchOrderDetailReq;
+import com.example.demo.src.jdbctemplate.orderdetail.model.PostOrderDetailReq;
+import com.example.demo.src.jdbctemplate.orderdetail.model.GetOrderDetailRes;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;

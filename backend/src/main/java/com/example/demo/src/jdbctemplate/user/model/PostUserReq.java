@@ -1,4 +1,4 @@
-package com.example.demo.src.user.model;
+package com.example.demo.src.jdbctemplate.user.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class PatchUserReq {
-    private int id;
+public class PostUserReq {
+    private String email;
+    private String password;
     private String name;
 }

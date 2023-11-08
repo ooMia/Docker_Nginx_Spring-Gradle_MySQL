@@ -1,4 +1,4 @@
-package com.example.demo.src.user.model;
+package com.example.demo.src.jdbctemplate.orderdetail.model;
 
 
 import lombok.AllArgsConstructor;

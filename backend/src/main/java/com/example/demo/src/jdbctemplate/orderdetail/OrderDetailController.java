@@ -1,11 +1,10 @@
-package com.example.demo.src.orderdetail;
+package com.example.demo.src.jdbctemplate.orderdetail;
 
-import static com.example.demo.common.BaseResponseStatus.POST_USERS_EMPTY_EMAIL;
-import static com.example.demo.common.BaseResponseStatus.POST_USERS_INVALID_EMAIL;
-import static com.example.demo.utils.ValidationRegex.isRegexEmail;
-
-import com.example.demo.src.orderdetail.OrderDetailService;
-import com.example.demo.src.user.model.PostUserRes;
+import com.example.demo.src.jdbctemplate.orderdetail.model.GetOrderDetailRes;
+import com.example.demo.src.jdbctemplate.orderdetail.model.OrderDetail;
+import com.example.demo.src.jdbctemplate.orderdetail.model.PatchOrderDetailReq;
+import com.example.demo.src.jdbctemplate.orderdetail.model.PostOrderDetailReq;
+import com.example.demo.src.jdbctemplate.orderdetail.model.PostOrderDetailRes;
 import lombok.RequiredArgsConstructor;
 import com.example.demo.common.BaseException;
 import com.example.demo.common.BaseResponse;

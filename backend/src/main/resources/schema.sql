@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS coupang;
 USE coupang;
 
--- USER 테이블
+-- User 테이블
 DROP TABLE IF EXISTS USER;
 CREATE TABLE USER
 (
