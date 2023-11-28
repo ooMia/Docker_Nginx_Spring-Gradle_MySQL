@@ -1,7 +1,24 @@
 services:
+  db:
+    image: mysql
+    environment:
+      - MYSQL_DATABASE=coupang
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+    restart: no
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    secrets:
+      - db-password
+    volumes:
+      - db-data:/var/lib/mysql
+
+
   backend:
     build: backend
-    restart: always
+    restart: no
     secrets:
       - db-password
     environment:
@@ -10,21 +27,7 @@ services:
       db:
         condition: service_healthy
 
-  db:
-    image: mysql
-    environment:
-      - MYSQL_DATABASE=coupang
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
-    restart: always
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
-      interval: 3s
-      retries: 5
-      start_period: 30s
-    secrets:
-      - db-password
-    volumes:
-      - db-data:/var/lib/mysql
+
 
   proxy:
     build: proxy
