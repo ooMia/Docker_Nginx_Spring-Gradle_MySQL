@@ -1,43 +1,88 @@
+version: '1.0'
+name: sinor
+
+secrets:
+  main_db-password:
+    file: mysql/password.txt
+
+volumes:
+  cache_db-data: {}
+  main_db-data: {}
+
+networks:
+  front-tier:
+    external: true
+  back-cache-tier:
+    external: true
+  back-main-tier:
+    external: true
+
 services:
-  db:
-    image: mysql
-    environment:
-      - MYSQL_DATABASE=coupang
-      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+
+  reverse_proxy:
+    build: ./proxy
+    ports: # https://docs.docker.com/compose/compose-file/05-services/#long-syntax-3
+      - target: 443
+        host_ip: 127.0.0.1
+        published: 80
+        protocol: tcp
+        mode: host
+    depends_on:
+      cache_server:
+        condition: service_completed_successfully
+
+  cache_server:
+    hostname: cacheHost
+    build: ./cache
+    ports:
+      - target: 8000
+        host_ip: 127.0.0.1
+        published: 8000
+        protocol: tcp
+        mode: host
+    restart: no
+    depends_on:
+      main_db:
+        condition: service_healthy
+
+  cache_db:
+    hostname: redisHost
+    image: redis:latest
+    expose:
+      - 6379
+    restart: no
+    healthcheck: # https://stackoverflow.com/questions/67904609/how-do-you-perform-a-healthcheck-in-the-redis-docker-image
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+      interval: 1s
+      timeout: 3s
+      retries: 5
+
+  main_server:
+    hostname: mainHost
+    build: ./main
+    expose:
+      - 8080
+    restart: no
+    depends_on:
+      main_db:
+        condition: service_healthy
+
+  main_db:
+    hostname: mysqlHost
+    image: mysql:8
+    expose:
+      - 3306
+      - 33060
     restart: no
     healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent" ]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "mysqlHost", "--silent" ]
       interval: 3s
       retries: 5
       start_period: 30s
-    secrets:
-      - db-password
-    volumes:
-      - db-data:/var/lib/mysql
-
-
-  backend:
-    build: backend
-    restart: no
-    secrets:
-      - db-password
     environment:
-      MYSQL_HOST: db
-    depends_on:
-      db:
-        condition: service_healthy
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/main_db-password
+    secrets:
+      - main_db-password
+    volumes:
+      - main_db-data:/var/lib/mysql
 
-
-
-  proxy:
-    build: proxy
-    ports:
-      - 8080:80
-    depends_on:
-      - backend
-
-volumes:
-  db-data: {}
-secrets:
-  db-password:
-    file: db/password.txt
