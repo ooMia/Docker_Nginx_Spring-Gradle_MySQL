@@ -22,18 +22,19 @@ services:
   reverse_proxy:
     build: ./proxy
     ports: # https://docs.docker.com/compose/compose-file/05-services/#long-syntax-3
-      - target: 443
-        host_ip: 127.0.0.1
-        published: 80
-        protocol: tcp
-        mode: host
-    depends_on:
-      cache_server:
-        condition: service_completed_successfully
+      - "8080:80"
+#      - target: 80
+#        host_ip: 127.0.0.1
+#        published: 8080
+#        protocol: tcp
+#        mode: host
+#    depends_on:
+#      cache_server:
+#        condition: service_completed_successfully
 
   cache_server:
     hostname: cacheHost
-    build: ./cache
+    build: ./main
     ports:
       - target: 8000
         host_ip: 127.0.0.1
@@ -60,8 +61,8 @@ services:
   main_server:
     hostname: mainHost
     build: ./main
-    expose:
-      - 8080
+    ports:
+      - "8080:8080"
     restart: no
     depends_on:
       main_db:
@@ -80,6 +81,7 @@ services:
       retries: 5
       start_period: 30s
     environment:
+      - MYSQL_DATABASE=coupang
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/main_db-password
     secrets:
       - main_db-password
