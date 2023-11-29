@@ -22,7 +22,7 @@ services:
   reverse_proxy:
     build: ./proxy
     ports: # https://docs.docker.com/compose/compose-file/05-services/#long-syntax-3
-      - "8080:80"
+      - "80:80"
 #      - target: 80
 #        host_ip: 127.0.0.1
 #        published: 8080
@@ -36,11 +36,7 @@ services:
     hostname: cacheHost
     build: ./main
     ports:
-      - target: 8000
-        host_ip: 127.0.0.1
-        published: 8000
-        protocol: tcp
-        mode: host
+      - "8000:8000"
     restart: no
     depends_on:
       main_db:
