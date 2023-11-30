@@ -36,11 +36,7 @@ services:
     hostname: cacheHost
     build: ./cache
     ports:
-      - target: 8000
-        host_ip: 127.0.0.1
-        published: 8000
-        protocol: tcp
-        mode: host
+      - "8000:8000"
     restart: no
     depends_on:
       cache_redis_db:

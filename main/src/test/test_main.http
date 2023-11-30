@@ -1,11 +1,11 @@
 ### getOrderDetails
-GET http://localhost/app/orderdetails
+GET http://localhost/main/app/orderdetails
 
 ### getOrderDetailsByOrderId
-GET http://localhost/app/orderdetails?orderId=1
+GET http://localhost/main/app/orderdetails?orderId=1
 
 ### createOrderDetails
-POST http://localhost/app/orderdetails
+POST http://localhost/main/app/orderdetails
 Content-Type: application/json
 
 {
@@ -20,7 +20,7 @@ Content-Type: application/json
 }
 
 ### updateOrderDetails
-PATCH http://localhost/app/orderdetails/1
+PATCH http://localhost/main/app/orderdetails/1
 Content-Type: application/json
 
 {
@@ -28,5 +28,5 @@ Content-Type: application/json
 }
 
 ### deleteOrderDetails
-DELETE http://localhost/app/orderdetails/1
+DELETE http://localhost/main/app/orderdetails/1
 
