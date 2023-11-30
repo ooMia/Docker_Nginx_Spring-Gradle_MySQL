@@ -6,8 +6,9 @@ secrets:
     file: mysql/password.txt
 
 volumes:
-  cache_db-data: {}
-  main_db-data: {}
+  cache-redis_db-data: {}
+  cache-mysql_db-data: {}
+  main-mysql_db-data: {}
 
 networks:
   front-tier:
@@ -20,33 +21,34 @@ networks:
 services:
 
   reverse_proxy:
-    build: ./proxy
+    image: nginx:latest
     ports: # https://docs.docker.com/compose/compose-file/05-services/#long-syntax-3
       - "80:80"
-#      - target: 80
-#        host_ip: 127.0.0.1
-#        published: 8080
-#        protocol: tcp
-#        mode: host
     depends_on:
+      cache_server:
+        condition: service_started
       main_server:
         condition: service_started
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf
 
-#  cache_server:
-#    hostname: cacheHost
-#    build: ./cache
-#    ports:
-#      - target: 8000
-#        host_ip: 127.0.0.1
-#        published: 8000
-#        protocol: tcp
-#        mode: host
-#    restart: no
-#    depends_on:
-#      main_db:
-#        condition: service_healthy
+  cache_server:
+    hostname: cacheHost
+    build: ./cache
+    ports:
+      - target: 8000
+        host_ip: 127.0.0.1
+        published: 8000
+        protocol: tcp
+        mode: host
+    restart: no
+    depends_on:
+      cache_redis_db:
+        condition: service_healthy
+      cache_mysql_db:
+        condition: service_healthy
 
-  cache_db:
+  cache_redis_db:
     hostname: redisHost
     image: redis:latest
     expose:
@@ -57,18 +59,10 @@ services:
       interval: 1s
       timeout: 3s
       retries: 5
+    volumes:
+      - cache-redis_db-data:/var/lib/redis
 
-  main_server:
-    hostname: mainHost
-    build: ./main
-    ports:
-      - "8080:8080"
-    restart: no
-    depends_on:
-      main_db:
-        condition: service_healthy
-
-  main_db:
+  cache_mysql_db:
     hostname: mysqlHost
     image: mysql:8
     expose:
@@ -81,10 +75,39 @@ services:
       retries: 5
       start_period: 30s
     environment:
+      - MYSQL_DATABASE=user
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/main_db-password
+    secrets:
+      - main_db-password
+    volumes:
+      - cache-mysql_db-data:/var/lib/mysql
+
+  main_server:
+    hostname: mainHost
+    build: ./main
+    ports:
+      - "8080:8080"
+    restart: no
+    depends_on:
+      main_db:
+        condition: service_healthy
+
+  main_db:
+    hostname: mysqlHost_main
+    image: mysql:8
+    expose:
+      - 3306
+      - 33060
+    restart: no
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "mysqlHost_main", "--silent" ]
+      interval: 3s
+      retries: 5
+      start_period: 30s
+    environment:
       - MYSQL_DATABASE=coupang
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/main_db-password
     secrets:
       - main_db-password
     volumes:
-      - main_db-data:/var/lib/mysql
-
+      - main-mysql_db-data:/var/lib/mysql
