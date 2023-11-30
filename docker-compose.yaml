@@ -28,19 +28,23 @@ services:
 #        published: 8080
 #        protocol: tcp
 #        mode: host
-#    depends_on:
-#      cache_server:
-#        condition: service_completed_successfully
-
-  cache_server:
-    hostname: cacheHost
-    build: ./main
-    ports:
-      - "8000:8000"
-    restart: no
     depends_on:
-      main_db:
-        condition: service_healthy
+      main_server:
+        condition: service_started
+
+#  cache_server:
+#    hostname: cacheHost
+#    build: ./cache
+#    ports:
+#      - target: 8000
+#        host_ip: 127.0.0.1
+#        published: 8000
+#        protocol: tcp
+#        mode: host
+#    restart: no
+#    depends_on:
+#      main_db:
+#        condition: service_healthy
 
   cache_db:
     hostname: redisHost
