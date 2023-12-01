@@ -15,7 +15,12 @@ public class DataInitializationService {
     }
 
     public void initializeData() {
-        // 여기에서 원하는 초기 데이터를 Redis에 삽입
-        // redisCacheService.setWithExpiration("key1", "value1");
+        for (int i = 0; i < 10; i++) {
+            String key = "dummyKey" + i;
+            String value = "dummyValue" + i;
+
+            // Adjust the expiration time as needed
+            redisCacheService.setWithExpiration(key, value, 1000L);
+        }
     }
 }

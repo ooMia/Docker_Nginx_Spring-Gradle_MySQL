@@ -58,6 +58,7 @@ services:
     volumes:
       - cache-redis_db-data:/var/lib/redis
 
+
   cache_mysql_db:
     hostname: mysqlHost
     image: mysql:8
@@ -73,6 +74,8 @@ services:
     environment:
       - MYSQL_DATABASE=user
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/main_db-password
+      - REDIS_HOST=redisHost
+      - REDIS_PORT=6379
     secrets:
       - main_db-password
     volumes:

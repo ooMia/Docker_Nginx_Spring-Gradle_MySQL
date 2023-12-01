@@ -1,4 +1,3 @@
-spring.application.name: demo
 server.port: 8000
 
 spring.redis:
@@ -22,7 +21,7 @@ spring.jpa:
 
 logging.level:
   org.hibernate.SQL: debug
-  org.hibernate.type: trace # 실제 들어가는 파라미터값 찍어주는 설정
+  org.hibernate.type: trace
 
 springdoc:
   swagger-ui:

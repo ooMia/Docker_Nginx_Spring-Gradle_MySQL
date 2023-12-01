@@ -55,7 +55,7 @@ public class RedisConfig {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(); // 여러 다른 Redis 연결 방법이 있을 수 있습니다.
+        return new LettuceConnectionFactory("redisHost", 6379); // 여러 다른 Redis 연결 방법이 있을 수 있습니다.
     }
 
     @Bean
