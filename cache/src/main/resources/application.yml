@@ -1,5 +1,5 @@
 spring.application.name: demo
-server.port: 8080
+server.port: 8000
 
 spring.redis:
   host: redisHost
@@ -14,7 +14,6 @@ spring.datasource:
 spring.sql.init:
   platform: mysql
   mode: always
-
 
 spring.jpa:
   hibernate.ddl-auto: create
