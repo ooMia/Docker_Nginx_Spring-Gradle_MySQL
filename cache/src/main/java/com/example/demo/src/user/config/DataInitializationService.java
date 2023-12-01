@@ -16,7 +16,7 @@ public class DataInitializationService {
 
     public void initializeData() {
         for (int i = 0; i < 10; i++) {
-            String key = "dummyKey" + i;
+            String key = "" + i;
             String value = "dummyValue" + i;
 
             // Adjust the expiration time as needed

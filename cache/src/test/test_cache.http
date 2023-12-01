@@ -1,8 +1,15 @@
-### get
-GET http://localhost/cache/getCache/dummyKey1
+### getCache
+GET http://localhost/cache/getCache/1
 
-### getOrderDetails
-#POST http://localhost/cache/setCache/1/2/3
+##### deleteCacheByKey
+#POST http://localhost/cache/deleteData/
+#Content-Type: application/json
+#
+#{
+#
+#}
+
+### POST http://localhost/cache/setCache/1/2/3
 #Content-Type: application/json
 #
 #{
